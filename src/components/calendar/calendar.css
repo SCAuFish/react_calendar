@@ -84,11 +84,16 @@ tr {
     font-size: 0.6em;
     right:3px;
 }
-
 .prev {
+    background-color: #f1f1f1;
+    color: black;
+    border-radius: 50%;
 }
 
 .next {
+    background-color: #04AA6D;
+    color: white;
+    border-radius: 50%;
 }
 
 .editor-year {

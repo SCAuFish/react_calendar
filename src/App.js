@@ -8,6 +8,7 @@ const style = {
 }
 
 function App() {
+
   return (
     <div className="App">
         <Calendar style={style} width="302px"/>
