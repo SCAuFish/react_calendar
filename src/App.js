@@ -8,10 +8,15 @@ const style = {
 }
 
 function App() {
+  const onDayClick = (e, day) => {
+      alert('hello, today is: ' + day + 'th')
+  };
 
   return (
     <div className="App">
-        <Calendar style={style} width="302px"/>
+        <Calendar style={style} width="302px"
+            onDayClick={onDayClick}
+        />
     </div>
   );
 }
