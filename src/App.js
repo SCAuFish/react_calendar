@@ -1,5 +1,7 @@
 import React from 'react';
+import Split from 'react-split'
 import './App.css';
+import './split.css';
 import Calendar from "./components/calendar/calendar";
 
 const style = {
@@ -13,11 +15,16 @@ function App() {
   };
 
   return (
-    <div className="App">
-        <Calendar style={style} width="302px"
-            onDayClick={onDayClick}
-        />
-    </div>
+      <Split className="split"
+          gutterSize={20}>
+            <div className="App">
+                <Calendar style={style} width="302px"
+                        onDayClick={onDayClick} />
+            </div>
+
+            <div>
+            </div>
+      </Split>
   );
 }
 
