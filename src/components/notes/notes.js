@@ -1,34 +1,53 @@
 import React from "react";
 import "./notes.css";
-import {Editor, EditorState} from 'draft-js';
+import { Editor, EditorState } from 'draft-js';
 import 'draft-js/dist/Draft.css';
 
 export default class Notes extends React.Component {
     state = {
-        editorState: EditorState.createEmpty()
+        notes: [],
     }
 
     constructor(props) {
         super(props);
-        this.onChange = editorState => this.setState({editorState});
+        this.onChange = idx => editorState => {
+            const newNotes = this.state.notes;
+            newNotes[idx].noteContent = editorState;
+            this.setState({ notes: newNotes })
+        };
     }
-    problemBox = () => {
-        return <input type="text" />
+
+    addProblemBox = () => {
+        const newNote = {
+            date: '',
+            problemIdx: 0,
+            noteContent: EditorState.createEmpty()
+        }
+        var currNotes = this.state.notes;
+        currNotes.push(newNote);
+        this.setState({ notes: currNotes });
     }
 
     render() {
         return (
-            <>
-                <div>
-                    <button className="button" onClick={this.problemBox}>Add a Problem</button>
+            <div style={{ alignItems: 'center', padding: 20 }}>
+                <div >
+                    <button className="button" onClick={this.addProblemBox}>Add a Problem</button>
                 </div>
-                <div>
-                    <input type="text" />
-                </div>
-                <div>
-                    <Editor className="editor" editorState={this.state.editorState} onChange={this.onChange} />
-                </div>
-            </>
+                {
+                    this.state.notes.map((note, idx) => {
+                        return <div id={`notes-details-${note.date}-${note.problemIdx}`}>
+                            <h4>{idx+1}</h4>
+                            <div style={{ marginTop: 5 }}>
+                                <input type="text" />
+                            </div>
+                            <div style={{ border: '3px solid black', marginTop: 5 }}>
+                                <Editor className="editor" editorState={note.noteContent} onChange={this.onChange(idx)} />
+                            </div>
+                        </div>
+                    })
+                }
+            </div>
         );
     }
 }

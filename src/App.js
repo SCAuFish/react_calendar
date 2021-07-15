@@ -18,17 +18,29 @@ function App() {
   };
 
   return (
-
+    <div style={{height: '100vh', minHeight: '100vh'}}>
       <Split className="split"
-          gutterSize={20}>
-            <div className="App">
+          gutterSize={10}
+          style={{height: '100%'}}
+          >
+            <div className="App" 
+                style={{
+                    alignItems: 'center',
+                    display: 'flex',
+                    justifyContent: 'center'
+                }}>
                 <Calendar style={style} width="302px"
                         onDayClick={onDayClick} />
             </div>
-            <div>
+            <div style={{
+                    alignItems: 'center',
+                    display: 'flex',
+                    justifyContent: 'center'
+                }}>
                 <Notes />
             </div>
       </Split>
+    </div>
   );
 }
 
