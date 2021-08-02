@@ -1,6 +1,7 @@
 .button {
-    width: 110px;
-    font-size: 12px;
+    width: 120px;
+    font-size: 13px;
+    font-weight: bold;
     padding: 8px;
     border-radius: 10px;
     cursor: pointer;
