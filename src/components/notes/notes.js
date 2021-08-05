@@ -7,44 +7,55 @@ import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 
 export default class Notes extends React.Component {
     state = {
-        notes: [],
+        notes: {},
         editorState: EditorState.createEmpty(),
+        year: this.props.year ? this.props.year : null,
+        month: this.props.month ? this.props.month : null,
+        day: this.props.day ? this.props.day : null,
     }
 
     constructor(props) {
         super(props);
-        this.onEditorStateChange = idx => editorState => {
-            const newNotes = this.state.notes;
-            newNotes[idx].noteContent = editorState;
-            this.setState({ notes: newNotes })
-        };
     }
 
-    addProblemBox = () => {
+    addProblemBox = (dateKey) => () => {
+        let currNotes = this.state.notes;
+        const currDayNotes = currNotes[dateKey];
+
         const newNote = {
-            date: '',
             problemIdx: 0,
             noteContent: EditorState.createEmpty()
         }
-        var currNotes = this.state.notes;
-        currNotes.push(newNote);
+
+        if (currDayNotes === undefined) {
+            currNotes[dateKey] = [newNote];
+        } else {
+            currNotes[dateKey].push(newNote);
+        }
+
         this.setState({notes: currNotes});
     }
 
-    onEditorStateChange = idx => editorState => {
+    onEditorStateChange = (idx, dateKey) => editorState => {
         const newNotes = this.state.notes;
-        newNotes[idx].noteContent = editorState;
+        newNotes[dateKey][idx].noteContent = editorState;
         this.setState({notes: newNotes})
     };
 
+    makeKey = (day, month, year) => {
+        return `${day}_${month}_${year}`
+    }
+
     render() {
+        const dateKey = this.makeKey(this.props.day, this.props.month, this.props.year);
         return (
+            this.props.year && this.props.month && this.props.day ?
             <div style={{alignItems: 'center', padding: 20}}>
                 <div>
-                    <button className="button" onClick={this.addProblemBox}>Add a Problem</button>
+                    <button className="button" onClick={this.addProblemBox(dateKey)}>Add a Problem</button>
                 </div>
-                {
-                    this.state.notes.map((note, idx) => {
+                {   this.state.notes[dateKey] ?
+                    this.state.notes[dateKey].map((note, idx) => {
                         return <div id={`notes-details-${note.date}-${note.problemIdx}`}>
                             <h4>{idx + 1}</h4>
                             <div>
@@ -57,13 +68,13 @@ export default class Notes extends React.Component {
                                         toolbarClassName="toolbarClassName"
                                         wrapperClassName="wrapperClassName"
                                         editorClassName="editorClassName"
-                                        onEditorStateChange={this.onEditorStateChange(idx)}
+                                        onEditorStateChange={this.onEditorStateChange(idx, dateKey)}
                                 />
                             </div>
                         </div>
-                    })
+                    }) : null
                 }
-            </div>
+            </div> : null
         );
     }
 }

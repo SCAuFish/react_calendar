@@ -10,6 +10,7 @@
     "@testing-library/user-event": "^12.8.3",
     "draft-js": "^0.11.7",
     "draft.js": "^0.2.0",
+    "firebase": "^8.8.1",
     "moment": "^2.29.1",
     "react": "^17.0.2",
     "react-big-calendar": "^0.33.5",
@@ -17,6 +18,7 @@
     "react-draft-wysiwyg": "^1.14.7",
     "react-scripts": "4.0.3",
     "react-split": "^2.0.11",
+    "reactfire": "^3.0.0-rc.3",
     "split.js": "^1.6.4",
     "styled-components": "^5.3.0",
     "web-vitals": "^1.1.2"

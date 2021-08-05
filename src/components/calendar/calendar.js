@@ -62,7 +62,7 @@ export default class Calendar extends React.Component {
 		this.setState({
 			dateContext: dateContext
 		});
-		this.props.onNextMonth && this.props.onNextMonth();
+		//this.props.onNextMonth && this.props.onNextMonth();
 	}
 
 	prevMonth = () => {
@@ -71,12 +71,12 @@ export default class Calendar extends React.Component {
 		this.setState({
 			dateContext: dateContext
 		});
-		this.props.onPrevMonth && this.props.onPrevMonth();
+		//this.props.onPrevMonth && this.props.onPrevMonth();
 	}
 
 	onSelectChange = (e, data) => {
 		this.setMonth(data);
-		this.props.onMonthChange && this.props.onMonthChange();
+		//this.props.onMonthChange && this.props.onMonthChange();
 	}
 
 	SelectList = (props) => {
@@ -161,7 +161,10 @@ export default class Calendar extends React.Component {
 	}
 
 	onDayClick = (e, day) => {
-		this.props.onDayClick && this.props.onDayClick(e, day);
+		 this.props.onDayClick(e, day, this.month(), this.year());
+		 this.props.yearSetter(this.year());
+		 this.props.monthSetter(this.month());
+		 this.props.daySetter(day);
 	}
 
 	render() {
@@ -242,7 +245,9 @@ export default class Calendar extends React.Component {
 					<tbody>
 						{weekdays}
 					</tbody>
+					<tbody>
 					{trElems}
+					</tbody>
 				</table>
 			</div>
     	);
