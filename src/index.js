@@ -4,8 +4,20 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { FirebaseAppProvider } from 'reactfire';
-const firebaseConfig = {
+import firebase from "firebase";
+
+var firebaseConfig = {
+    apiKey: "AIzaSyDU8rsu5nNka6vyZdxqKSMXD-fOn4sOwkU",
+    authDomain: "react-calendar-2021.firebaseapp.com",
+    projectId: "react-calendar-2021",
+    storageBucket: "react-calendar-2021.appspot.com",
+    messagingSenderId: "405500985842",
+    appId: "1:405500985842:web:c02edeaccf99f3526a6b6b",
+    measurementId: "G-G2WMGYSXZH"
 };
+
+firebase.initializeApp(firebaseConfig);
+
 ReactDOM.render(
     <FirebaseAppProvider firebaseConfig={firebaseConfig}>
         <App />

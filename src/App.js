@@ -4,8 +4,10 @@ import './App.css';
 import './split.css';
 import Calendar from "./components/calendar/calendar";
 import Notes from "./components/notes/notes";
+import firebase from "firebase/app";
 import 'firebase/firestore';
-import { useFirestoreDocData, useFirestore } from 'reactfire';
+
+
 
 const style = {
 	position: "relative",
@@ -47,8 +49,9 @@ function App() {
                     justifyContent: 'center'
                 }}>
                 <Notes year={year}
-                    month={month}
-                    day={day}/>
+                       month={month}
+                       day={day}
+                />
             </div>
       </Split>
     </div>

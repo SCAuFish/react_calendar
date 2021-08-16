@@ -4,6 +4,24 @@ import {EditorState, RichUtils} from 'draft-js';
 import 'draft-js/dist/Draft.css';
 import { Editor } from "react-draft-wysiwyg";
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
+import 'firebase/firestore';
+import { useFirestoreDocData, useFirestore, useFirestoreDoc } from 'reactfire';
+
+
+function Note() {
+    const noteRef = useFirestore()
+        .collection('note')
+        .doc('burrito');
+
+    // subscribe to the doc. just one line!
+    // throws a Promise for Suspense to catch,
+    // and then streams live updates
+    const noteDoc = useFirestoreDoc(noteRef);
+
+    const isYummy = noteDoc.data().yummy;
+
+    return <p>The burrito is {isYummy ? 'good' : 'bad'}!</p>;
+}
 
 export default class Notes extends React.Component {
     state = {
@@ -16,6 +34,7 @@ export default class Notes extends React.Component {
 
     constructor(props) {
         super(props);
+        this.handleNameChange = this.handleNameChange.bind(this);
     }
 
     addProblemBox = (dateKey) => () => {
@@ -24,6 +43,7 @@ export default class Notes extends React.Component {
 
         const newNote = {
             problemIdx: 0,
+            problemName: "",
             noteContent: EditorState.createEmpty()
         }
 
@@ -34,6 +54,13 @@ export default class Notes extends React.Component {
         }
 
         this.setState({notes: currNotes});
+    }
+
+    handleNameChange(event, idx, dateKey) {
+        const newNotes = this.state.notes;
+        newNotes[dateKey][idx].problemName = event.target.value;
+        console.log(newNotes[dateKey][idx].problemName);
+        this.setState({notes: newNotes});
     }
 
     onEditorStateChange = (idx, dateKey) => editorState => {
@@ -48,6 +75,7 @@ export default class Notes extends React.Component {
 
     render() {
         const dateKey = this.makeKey(this.props.day, this.props.month, this.props.year);
+
         return (
             this.props.year && this.props.month && this.props.day ?
             <div style={{alignItems: 'center', padding: 20}}>
@@ -59,7 +87,12 @@ export default class Notes extends React.Component {
                         return <div id={`notes-details-${note.date}-${note.problemIdx}`}>
                             <h4>{idx + 1}</h4>
                             <div>
-                                <input style={{border: '3px solid lightblue'}} type="text"/>
+                                <input id={`notes-details-${note.date}-${note.problemIdx}`}
+                                       style={{border: '3px solid lightblue'}}
+                                       type="text"
+                                       value={this.state.notes[dateKey][idx].problemName}
+                                       onChange={(e) => {this.handleNameChange(e, idx, dateKey)}}
+                                />
                             </div>
                             <div style={{border: '3px solid navy', marginTop: 20, minHeight: '10em'}}>
                                 <Editor className="editor"
