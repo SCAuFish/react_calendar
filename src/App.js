@@ -51,6 +51,7 @@ function App() {
                 <Notes year={year}
                        month={month}
                        day={day}
+                       firebaseConfig={this.props.firebaseConfig}
                 />
             </div>
       </Split>
